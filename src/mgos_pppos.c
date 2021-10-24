@@ -706,6 +706,7 @@ static void mgos_pppos_dispatch_once(struct mgos_pppos_data *pd) {
       add_cmd(pd, mgos_pppos_ccid_cb, 0, "AT+CCID");
       add_cmd(pd, mgos_pppos_cpin_cb, 0, "AT+CPIN?");
       add_cmd(pd, NULL, 0, "AT+%s=0", reg_cmd); /* No unsolicited reports */
+      add_cmd(pd, NULL, 0, "AT+CMNB=1"); 
       bool ok = false;
       if (pd->cfg->last_oper != NULL && pd->try_cops) {
         /* Try last used first, fall back to auto if unsuccessful. */

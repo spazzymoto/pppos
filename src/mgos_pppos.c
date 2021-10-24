@@ -706,25 +706,12 @@ static void mgos_pppos_dispatch_once(struct mgos_pppos_data *pd) {
       add_cmd(pd, mgos_pppos_ccid_cb, 0, "AT+CCID");
       add_cmd(pd, mgos_pppos_cpin_cb, 0, "AT+CPIN?");
       add_cmd(pd, NULL, 0, "AT+%s=0", reg_cmd); /* No unsolicited reports */
-      add_cmd(pd, NULL, 0, "AT+CNMP=38"); 
-      add_cmd(pd, NULL, 0, "AT+CMNB=1"); 
-      bool ok = false;
-      if (pd->cfg->last_oper != NULL && pd->try_cops) {
-        /* Try last used first, fall back to auto if unsuccessful. */
-        LOG(LL_INFO, ("Trying to connect to %s", pd->cfg->last_oper));
-        const char *comma = strchr(pd->cfg->last_oper, ',');
-        if (comma != NULL) {
-          add_cmd(pd, mgos_pppos_cops_set_cb, COPS_TIMEOUT,
-                  "AT+COPS=4,2,\"%.*s\"", (int) (comma - pd->cfg->last_oper),
-                  pd->cfg->last_oper);
-          ok = true;
-        }
-      }
-      if (!ok) {
-        /* Auto mode */
-        LOG(LL_INFO, ("Automatic operator selection"));
-        add_cmd(pd, NULL, COPS_AUTO_TIMEOUT, "AT+COPS=0");
-      }
+      add_cmd(pd, NULL, 0, "AT+CMNB=1");
+      
+      /* Auto mode */
+      LOG(LL_INFO, ("Automatic operator selection"));
+      add_cmd(pd, NULL, COPS_AUTO_TIMEOUT, "AT+COPS=0");
+        
       add_cmd(pd, mgos_pppos_creg_cb, 0, "AT+%s?", reg_cmd);
       add_cmd(pd, NULL, 0, "AT+COPS=3,2"); /* Numeric operator format. */
       add_cmd(pd, mgos_pppos_cops_cb, 0, "AT+COPS?");

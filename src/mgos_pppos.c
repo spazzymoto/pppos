@@ -41,7 +41,7 @@
 
 #define AT_CMD_TIMEOUT 2.0
 #define COPS_TIMEOUT 60
-#define COPS_AUTO_TIMEOUT 600
+#define COPS_AUTO_TIMEOUT 10800
 
 enum mgos_pppos_state {
   PPPOS_IDLE = 0,
